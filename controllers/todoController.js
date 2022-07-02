@@ -6,7 +6,7 @@ const taskModel = require('../models/todo');
 exports.get = async (req, res) => {
     try {
        const allTask = await taskModel.find()
-        res.status(200).json(result)
+        res.status(200).json(allTask)
     } catch (error) {
         res.status(500).send("Internal Server Error")
     }
