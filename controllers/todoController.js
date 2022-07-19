@@ -1,7 +1,43 @@
 const { randomUUID } = require("crypto");
 const { title } = require("process");
 const taskModel = require('../models/todo');
+const nodemailer = require("nodemailer");
+require('dotenv/config');
 
+const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+        user: process.env.EMAIL,
+        pass: process.env.EMAILPASSWORD
+    }
+});
+
+exports.post = async (req,res) => {
+
+    if(req.body['email'] != null) {
+    
+    // I'm using Static text here. Would make it dynamic in real situations. 
+    var mailOptions = {
+        to: 'okoroafordavid61@yahoo.com',
+        from: 'ZURI MONEYBANK <okoroafordavid61@gmail.com>',
+        subject: 'WITHDRAWAL OF 100K',
+        text: 'Hi David, \n\n    You are receiving this because you (or someone else) have requested the withdrawal 100K from your account.\n' +
+            'If you did not request this, please Contact Our Headquater oooo. Yahoo Boys don run you street.\n'
+    };
+    transporter.sendMail(mailOptions, function (err, info) {
+        if (err){
+            console.log(err)
+            res.status(501).send('internal Server error');
+        }  else {
+            res.status(200).send('Message %s sent: %s', info.messageId, info.response)
+        }
+    })
+} else {
+    
+}
+    
+    
+}
 
 exports.get = async (req, res) => {
     try {
